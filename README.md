@@ -7,8 +7,11 @@ will cover the basics of Redux and how to use it with a React app.
 If you haven't already got the code then clone the companion code repository for this tutorial (and the [previous one](https://github.com/justsayno/react-introduction-tutorial)),
 follow the instructions and you can follow along with my code changes by switching branches. For example to go to the beginning of this tutorial run this:
 
+I am going to show you how to build out the employee C.V. manager app I began in the first part but first we need to explain what Redux is, why we would use it
+and how it works.
+
 ```
-git checkout step-11
+git checkout step-0
 ```
 
 There is great documentation on the [Redux documentation site ](http://redux.js.org/docs/introduction/index.html)and I highly recommend watching Redux author Dan Abramov's 
