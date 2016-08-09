@@ -18,7 +18,7 @@ There is great documentation on the [Redux documentation site ](http://redux.js.
 [Getting Started with Redux](https://egghead.io/courses/getting-started-with-redux) 
 and [Building React Applications with Idiomatic Redux](https://egghead.io/courses/building-react-applications-with-idiomatic-redux).
 
-Since Redux is so heavily based on Flux I thought I would explain what Flux is in the next step.
+Since Redux is so heavily based on Flux I thought I would explain what Flux is in the first.
 
 Next Step - [Click Here]()
 

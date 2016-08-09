@@ -1,14 +1,17 @@
 # What is Redux and why do I need it?
 
 In the past web sites were simple server side rendered post-back based user interaction. As JavaScript evolved
-and 'web apps' started to content with the native mobile experience we had an explosion of frameworks and tools
-such as Backbone, Knockout, Durandal, Angular, Ember and so on. 
+and 'web apps' started to contend with the native mobile experience there has been an explosion of frameworks and tools
+such as Backbone, Knockout, Angular, Ember and so on.
 
-When React came along many of the other frameworks took heed of what was done in terms of uni-directional data flow
-and a more functional approach. This solved a lot of problems but one thing that is still hard in any non-trivial
+All these frameworks and libraries were mostly aimed at solving the binding of data and html and building with more
+of less other features. The missing piece here is a simple, scalable way of dealing with application state and 
+interactions in an app.
+
+These frameworks solved a lot of problems but one thing that is still hard in any non-trivial
 application is managing the data and the UI state and passing data around between interdependent components.
 
-This is where Flux and Redux come it.
+This is where Flux and later Redux came in.
 
 ## Flux
 
@@ -45,6 +48,7 @@ Inside this function there is a switch statement determining what will happen to
 
 As described when an event or a user interaction occurs the component will emmit an `Action`, the event is 'dispatched' and any callbacks registered
 by the `Stores` are run with the dispatched action as a parameter. Once the store's callback(s) have been run then the new state will flow into the views.
+There is only one dispatcher in an application.
 
 ### What if a component wants to update the state?
 
@@ -70,9 +74,9 @@ MyComponent.propTypes = {
 
 ```
 
-In the above example the prop `onClick` would be a Flux action creator function. This allows complete de-coupling of the 
+In the above example the prop `onClick` could be a Flux action creator passed to it from its parent. This allows complete de-coupling of the 
 logic around how state is mutated and the interactions that initiate it. This example is also an example of a Presentational
-component that contains no logic of its own and has its action creators and other props passed to it from its parent component.
+component that contains no logic of its own, just props and presentation.
 
 That is enough background on Flux. Lets talk about Redux in the next step.
 
