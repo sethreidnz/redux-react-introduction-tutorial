@@ -22,3 +22,7 @@ Since Redux is so heavily based on Flux I thought I would explain what Flux is i
 
 Next Step - [Click Here]()
 
+## Contents
+
+WIP
+
