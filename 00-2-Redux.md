@@ -1,6 +1,6 @@
 # Redux
 
-> There is great documentation on the [Redux documentation site ](http://redux.js.org/docs/introduction/index.html)and 
+> There is great documentation on the [Redux site](http://redux.js.org/docs/introduction/index.html) and 
 > I highly recommend watching Redux author Dan Abramov's [Getting Started with Redux](https://egghead.io/courses/getting-started-with-redux) 
 > and [Building React Applications with Idiomatic Redux](https://egghead.io/courses/building-react-applications-with-idiomatic-redux).
 
@@ -9,12 +9,13 @@ Redux is a state management library that is very simple and has three main princ
 bones of the library (sans some edge case handling).
 
 It is made up of a number of concepts that at first can seem daunting but are actually quite simple. In short
-when using Redux you store all your application state in one state object (the store). This state is read-only
-and the only way to change it is to emit an `Action` via the `store.dispatch()` function. Then you create a `reducer` which
-is just function that receive the previous state and an action. 
+when using Redux you store all your application state in one JavaScript object (the store). This state is read-only
+and the only way to change it is to emit an `Action` via the `store.dispatch()` function. When an action is dispatches the current state and the action are passed
+to what is called a 'reducer'. A reducer is a function that takes the current state and the action that has been dispatched and returns
+the new state. 
 
-It can then create a new state (**not** mutate the old state) with the required changes for that action and this flows
-down to the components in your app.
+The reducer does not mutate the state but instead creates a new state with the changes required. These changes then flow down to your
+components.
 
 ## Three principals of Redux
 
@@ -22,7 +23,7 @@ There are three basic principals of Redux.
 
 ### 1 Single source of truth
 
-> The state of your entire application is stored in an object tree with a single [store](http://redux.js.org/docs/Glossary.html#store)
+> The state of your entire application is stored in an object tree with a single [Redux store](http://redux.js.org/docs/Glossary.html#store)
 
 This makes it really easy to make universal apps that can render on the server as well as making it easier to debug
 since every action in your application can be tracked and stepped through after the fact. For example this could be
@@ -49,8 +50,8 @@ For simplicities sake in this tutorial we are going to use `Object.assign()`.
 
 ##### Actions
 
-The only way that state can be mutated by the application is through using the redux `store.dispatch()` function to 
-create and action. An action is just a plain JavaScript object that has a `type` property that describes the action. For
+The only way that state can be mutated is through using the redux `store.dispatch()` function to 
+create an action. An action is just a plain JavaScript object that has a `type` property that describes the action. For
 example imagine that the application has loaded and the employee data is busy being fetched so the state looks like this:
 
 ```

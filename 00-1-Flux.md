@@ -1,17 +1,15 @@
 # What is Redux and why do I need it?
 
-In the past web sites were simple server side rendered post-back based user interaction. As JavaScript evolved
+In the past web sites mostly involved simple server side rendered, post-back based, user interaction. As JavaScript evolved
 and 'web apps' started to contend with the native mobile experience there has been an explosion of frameworks and tools
 such as Backbone, Knockout, Angular, Ember and so on.
 
-All these frameworks and libraries were mostly aimed at solving the binding of data and html and building with more
-of less other features. The missing piece here is a simple, scalable way of dealing with application state and 
-interactions in an app.
+All these frameworks and libraries solved a lot of problems such as the binding of data and html and how to structure and manage dependencies. 
+Often the missing piece was a simple, scalable way of dealing with application state as the project and the complexity grew.
 
-These frameworks solved a lot of problems but one thing that is still hard in any non-trivial
-application is managing the data and the UI state and passing data around between interdependent components.
+The type of state I am talking about involved data from the server, UI interactions, forms and much more.
 
-This is where Flux and later Redux came in.
+This is where Facebook came up with the Flux architecture, which later inspired Redux.
 
 ## Flux
 
@@ -21,7 +19,7 @@ This is where Flux and later Redux came in.
 
 One doesn't need to understand Flux to use Redux but since it is heavily based on Flux it is worth a brief explanation.
 
-The Flux architecture eschews MVC has three main parts:
+The Flux architecture eschews MVC has three main concepts:
 
 - Views
 - Stores
@@ -41,18 +39,18 @@ make up the "views" part of our Flux application.
 ### Stores
 
 This is where data is stored and flows *from* the store into the views. The views cannot directory update the state, instead they
-do this through dispatching an action. The store registered callbacks with the dispatcher which are functions that take an action type.
+do this through dispatching an action. The store registers callbacks with the dispatcher. These callbacks are just functions that take an action type.
 Inside this function there is a switch statement determining what will happen to the store's state as a result of the action.
 
 ### Dispatcher
 
-As described when an event or a user interaction occurs the component will emmit an `Action`, the event is 'dispatched' and any callbacks registered
+When an event or a user interaction occurs the component will emmit an `Action` via the dispatcher and any callbacks registered
 by the `Stores` are run with the dispatched action as a parameter. Once the store's callback(s) have been run then the new state will flow into the views.
-There is only one dispatcher in an application.
+One thing to note is that there is only one dispatcher in an application.
 
 ### What if a component wants to update the state?
 
-The only way that a view can update the state is via and action. The store does not have any direct set methods and the only thing that
+The only way that a view can update the state is via an action. The store does not have any direct set methods and the only thing that
 can act on the state are callbacks registered with the dispatcher.
 
 ![Flux uni-directional flow](images/plux-uni-directional-flow-2.png)
