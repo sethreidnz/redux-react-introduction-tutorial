@@ -171,7 +171,7 @@ EmployeeDashboard.propTypes = {
 
 Now what about using an action to get the employee data?
 
-[Next Step](4.Actions-And-Action-Creators)
+[Next Step](04-Actions-And-Action-Creators.md)
 
 
 
