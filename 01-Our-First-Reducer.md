@@ -130,6 +130,8 @@ All I've done here is instead of modifying the state itself I have used the [Obj
 method to merge the old state with a new state. How this function works is it takes an object as the first argument and merges each subsequent argument into it, returning one
 object. The properties are overriden by each successive merge so in my reducer I have created a NEW object `{}`, merged in the current state then merged in my new state.
 
-Test passes!
+Test passes! Lets create our Redux store
+
+Next step - [Click here](01-Our-First-Store.md)
 
 
