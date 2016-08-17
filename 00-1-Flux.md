@@ -7,22 +7,24 @@ such as Backbone, Knockout, Angular, Ember and so on.
 All these frameworks and libraries solved a lot of problems such as the binding of data and html and how to structure and manage dependencies. 
 Often the missing piece was a simple, scalable way of dealing with application state as the project and the complexity grew.
 
-The type of state I am talking about involved data from the server, UI interactions, forms and much more.
+The type of state I am talking about involved data from the server, UI interactions, forms and everything else that comes with any non-trivial application.
 
 This is where Facebook came up with the Flux architecture, which later inspired Redux.
 
 ## Flux
 
-[Flux](https://facebook.github.io/flux) is used internally by Facebook for building client side apps. As the docs say:
+[Flux](https://facebook.github.io/flux) is used internally by Facebook for building client side apps and in many ways is just a defined implementation of
+[CQRS](http://martinfowler.com/bliki/CQRS.html). As the docs say:
 
 > It's more of a pattern rather than a formal framework, and you can start using Flux immediately without a lot of new code.
 
-One doesn't need to understand Flux to use Redux but since it is heavily based on Flux it is worth a brief explanation.
+One doesn't need to understand Flux to use Redux but since it is heavily influenced by Flux it is worth a brief explanation.
 
-The Flux architecture eschews MVC has three main concepts:
+The Flux architecture eschews MVC has four main concepts:
 
 - Views
 - Stores
+- Actions
 - The dispatcher
 
 ![Flux uni-directional flow](images/plux-uni-directional-flow.png)
@@ -41,6 +43,9 @@ make up the "views" part of our Flux application.
 This is where data is stored and flows *from* the store into the views. The views cannot directory update the state, instead they
 do this through dispatching an action. The store registers callbacks with the dispatcher. These callbacks are just functions that take an action type.
 Inside this function there is a switch statement determining what will happen to the store's state as a result of the action.
+
+There can be multiple stores in a Flux application and each store might independently have a callback registered for a particular action. This helps
+keep the whole application in sync. Another thing stores do is act as a local caching mechanism in the app.
 
 ### Dispatcher
 
