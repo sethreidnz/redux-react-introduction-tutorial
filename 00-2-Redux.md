@@ -5,7 +5,7 @@
 > and [Building React Applications with Idiomatic Redux](https://egghead.io/courses/building-react-applications-with-idiomatic-redux).
 
 Redux is a state management library that is very simple and has three main principals. It is so simple the author
-[Dan Abramov](https://github.com/gaearon) made a [90 line version](https://gist.github.com/gaearon/ffd88b0e4f00b22c3159) which is the bare
+[Dan Abramov](https://github.com/gaearon) made a [98 line version](https://gist.github.com/gaearon/ffd88b0e4f00b22c3159) which is the bare
 bones of the library (sans some edge case handling and comments).
 
 It is made up of a number of concepts that at first can seem daunting but are actually quite simple. In short
