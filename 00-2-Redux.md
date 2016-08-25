@@ -96,7 +96,7 @@ const reducer = (state, action) => {
 }
 ```
 
-This works and produces the correct state object but I have mutated the original state object and broken the rule of it being a pure function. This principal is nesisarry
+This works and produces the correct state object but I have mutated the original state object and broken the rule of it being a pure function. This principal is necessary
 to get some of the advantages of Redux such as the [Redux Dev Tools](https://github.com/gaearon/redux-devtools) I will show you later.
 
 The better way to do this is to use Object.assign.
