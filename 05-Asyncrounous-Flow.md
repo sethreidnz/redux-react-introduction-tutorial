@@ -14,12 +14,26 @@ The three main options are:
 2. [Redux Sagas](https://github.com/yelouafi/redux-saga)
 3. [Redux Loop](https://github.com/redux-loop/redux-loop)
 
-Redux Thunk is by far the simplest to get started with so this tutorial is going to focus on using that.
+Redux Thunk is probably the simplest to get started with so this tutorial is going to focus on using that.
 
 ## Redux Thunk
 
-Redux Thunk is what is called 'middleware' which are used to enhance a redux store. Thunk allows you to write action creators 
-that return a function instead of an action. So instead of our action creator looking like this:
+Redux Thunk is what is called Reudx Middleware. Middleware allows you to enhance the Redux store in some way.
+In this case Redux Think allows your action creators to return not just an object representing the action
+being created. But you could return a function whos signature looks like this:
+
+``` javascript
+//arrow function
+(dispatch, getState) => {
+ 
+}
+//or
+function(dispatch, getState){
+
+}
+```
+
+So for example I could convert this:
 
 ``` javascript
 export const requestEmployees = () => ({ 
@@ -27,7 +41,7 @@ export const requestEmployees = () => ({
 })
 ```
 
-We could do this:
+Into this:
 
 ``` javascript
 export const requestEmployees = () => {
@@ -44,7 +58,33 @@ The function we return has passed to it two store arguments:
 - dispatch
 - getState
 
-This lets us inspect the current state as well as dispatch 0 or more actions. The above example is not very useful 
+## Configuring Redux Midddleware
+
+First we need to add the Redux Thunk package using npm and then we need to tell Redux about it. You do this by passing the middelware
+to as a second argument to the Redux `createStore` function. 
+
+``` javascript
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk)
+)
+```
+
+However since we are already using the Redux Dev Tools Middleware we need to use another Redux function called `compose`. It's not
+really important how this works but it lets us use multiple Redux Middlewares.
+
+``` javascript
+export const store = createStore(
+  employeeReducer,
+  initialState,
+  compose(
+    applyMiddleware(thunk),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+    )
+);
+```
+
+These let us inspect the current state as well as dispatch actions in our action creator. The above example is not very useful 
 but say we turned the `getEmployee` into a function that returns we could call it like this:
 
 ``` javascript 
