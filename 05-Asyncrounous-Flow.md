@@ -18,12 +18,12 @@ Redux Thunk is by far the simplest to get started with so this tutorial is going
 
 ## Redux Thunk
 
-Redux Thunk is what is called 'middleware' and it allows you to write action creators that return a 
-function instead of an action. So instead of our action creator looking like this:
+Redux Thunk is what is called 'middleware' which are used to enhance a redux store. Thunk allows you to write action creators 
+that return a function instead of an action. So instead of our action creator looking like this:
 
 ``` javascript
 export const requestEmployees = () => ({ 
-    type: REQUEST_EMPLOYEES
+    type: EMPLOYEES_REQUESTED
 })
 ```
 
@@ -33,7 +33,7 @@ We could do this:
 export const requestEmployees = () => {
     return (dispatch) => {
         dispatch({ 
-            type: REQUEST_EMPLOYEES
+            type: EMPLOYEES_REQUESTED
         })
     }
 }
@@ -44,36 +44,36 @@ that returns we could call it like this:
 
 ``` javascript 
 // Actions
-const REQUEST_EMPLOYEES = 'REQUEST_EMPLOYEES'
-const REQUEST_EMPLOYEES_SUCCESS = "REQUEST_EMPLOYEES_SUCCESS"
+const EMPLOYEES_REQUESTED = 'EMPLOYEES_REQUESTED'
+const EMPLOYEES_RECEIVED = "EMPLOYEES_RECEIVED"
 
 // Action Creators
-export const requestEmployees = () => ({
-    type: REQUEST_EMPLOYEES
+export const employeesRequested = () => ({
+    type: EMPLOYEES_REQUESTED
 })
 
-export const requestEmployeesSuccess = (employees) => ({
-    type: REQUEST_EMPLOYEES_SUCCESS,
+export const employeesReceived = (employees) => ({
+    type: EMPLOYEES_RECEIVED,
     employees: employees
 })
 
-export const requestEmployeesAsync = () => {
+export const requestEmployees = () => {
     return (dispatch) => {
-        dispatch(requestEmployees())
+        dispatch(employeesRequested())
         return getEmployees().then(
-            (employees) => dispatch(requestEmployeesSuccess(employees))
+            (employees) => dispatch(employeesReceived(employees))
         )
     };
 }
 ```
 
-Notice how I have created two actions now, one for requesting and one for the successful
-retrieval of the data. I've also changed the reducer now to handle this:
+Notice how I have created two actions now, one for when the employees are requested and one for when the employee data is recieved
+I've also changed the reducer now to handle this:
 
 ``` javascript
 export const employeeReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REQUEST_EMPLOYEES_SUCCESS: {
+        case EMPLOYEES_RECEIVED: {
             return Object.assign({}, state, {
                 employees: action.employees
             })
@@ -85,7 +85,7 @@ export const employeeReducer = (state = initialState, action) => {
 }
 ```
 
-For the moment I am not handling the case for `REQUEST_EMPLOYEES` because there isn't much to do there.
+For the moment I am not handling the case for `EMPLOYEES_REQUESTED` because there isn't much to do there.
 But what I can add is a spinner to indicate that it is loading:
 
 ```
@@ -102,18 +102,18 @@ const initialState = {
 ```
 
 This flag will be `false` to begin with and when the data is recieved then it will
-be `true`. So in my reducer in the case `REQUEST_EMPLOYEES` I will set `hasLoaded` to false,
-and in the `REQUEST_EMPLOYEES_SUCCESS` i set it to true.
+be `true`. So in my reducer in the case `EMPLOYEES_REQUESTED` I will set `hasLoaded` to false,
+and in the `EMPLOYEES_REQUESTED_SUCCESS` i set it to true.
 
 ``` javascript
 export const employeeReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REQUEST_EMPLOYEES: {
+        case EMPLOYEES_REQUESTED: {
             return Object.assign({}, state, {
                 hasLoaded: false
             })
         }
-        case REQUEST_EMPLOYEES_SUCCESS: {
+        case EMPLOYEES_REQUESTED_SUCCESS: {
             return Object.assign({}, state, {
                 employees: action.employees,
                 hasLoaded: true
@@ -189,13 +189,31 @@ const mapStateToProps = (state) => ({
 ## Sharing state between components
 
 At the moment I am still using the old `getEmployee(employeeId)` call for the single user page but this
-won't work any more now that we have turned `getEmployees` into an asyc call. We could do another asyncronousy
+won't work any more now that we have turned `getEmployees` into an asyc call. We could do another asyncronous
 call to get the single employee but since the data is the same we might as well just share state and 
 filter the one we want.
 
-So I have added Redux `connect()` to `EmployeeProfile`, mapped employees to the props and filtering
-the results as I was before:
+So I have added Redux `connect()` to `EmployeeProfile` alon with `mapStateToProps`
 
 ``` javascript
+const mapStateToProps = (state) => ({ 
+    employees: state.employees
+})
 
+export default connect(mapStateToProps, null)(EmployeeProfile)
+```
+
+I've also moved the logic that I was using to get the selected employee into its own function inside my EmployeeProfile
+class so that it reads more clearly:
+
+``` javascript
+_getSelectedEmployee(props){
+    // get employee and employee id from props
+    const { employees, params: { employeeId } } = props
+    
+    // filter employees for the one that is selected
+    return employees.filter((value) => {
+        return value && (value.id === employeeId)
+    })[0]
+}
 ```

@@ -9,15 +9,14 @@ changes as you follow along. The branches correspond to the step in this
 tutorial.
 
 ```
-git checkout step-0
-git clone https://github.com/justsayno/react-introduction-tutorial
+git clone https://github.com/justsayno/react-introduction-tutorial-code
 ```
 
-Although Redux was born of React you can and I have used it with other frameworks. There is
-a great library though called `react-redux` that you can use to wire up your Redux store
+Although Redux was born of React you can and I have used it with other frameworks with great results. There is
+a great library for integrating it with React called `react-redux` that you can use to wire up your Redux store
 into the application seamlessly.
 
-## Creating the store.
+## Creating the store
 
 ```
 git checkout step-3
@@ -39,7 +38,7 @@ const employeeReducer = (state = initialState, action) => {
     return state
 }
 
-export const Store = createStore(employeeReducer)
+export const store = createStore(employeeReducer)
 ```
 
 This is very similar to what was in the last step except just for demonstration
@@ -64,8 +63,11 @@ Redux's Provider is a [Higher Order Component](https://medium.com/@franleplant/r
  our app in a Redux provider make the store available to all container components.
 
 ``` javascript
+import { Provider } from 'react-redux'
+import { store } from './store'
+
 ReactDOM.render(
-  <Provider store={Store}>
+  <Provider store={store}>
     <Routes />
   </Provider>,
   document.getElementById('root')

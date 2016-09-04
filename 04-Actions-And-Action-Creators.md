@@ -5,8 +5,9 @@ git checkout step-4
 ```
 
 As mentioned in the previous step the second argument to `react-redux`'s `connect` function
-is `mapDispatchToProps`. This is a function that recieves the stores dispatch function
-as an argument and you return an object that is merged into the props of the component.
+is `mapDispatchToProps`. This is a function that recieves the store's dispatch function
+as an argument and returns an object that is merged into the props of the component. Similar to mapStateToProps
+but used for actions and action creators.
 
 This is a very convienent way of decoupling your component from the dispatch function itself.
 As you can see in `EmployeeDashbaord` I have done just that. I have created a function that wraps the
@@ -14,7 +15,7 @@ dispatching of a `REQUEST_EMPLOYEE` action.
 
 ``` javascript
 const mapDispatchToProps = (dispatch) => ({
-  requestEmployees: () => (dispatch({ type: 'REQUEST_EMPLOYEES' }))
+  requestEmployees: () => (dispatch({ type: 'EMPLOYEES_REQUESTED' }))
 })
 ``` 
 
@@ -40,11 +41,11 @@ for doing this.
 
 ``` javascript
 // Actions
-const REQUEST_EMPLOYEES = 'REQUEST_EMPLOYEES'
+const EMPLOYEES_REQUESTED = 'EMPLOYEES_REQUESTED'
 
 // Action Creators
 export const requestEmployees = () => ({ 
-    type: 'REQUEST_EMPLOYEES' 
+    type: EMPLOYEES_REQUESTED
 })
 ```
 
@@ -59,9 +60,12 @@ git checkout step-4-2
 ```
 
 ``` javascript
+const initialState = {
+    employees: []
+}
 export const employeeReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REQUEST_EMPLOYEES: {
+        case EMPLOYEES_REQUESTED: {
             return Object.assign({}, state, {
                 employees: getEmployees()
             })
@@ -75,7 +79,9 @@ export const employeeReducer = (state = initialState, action) => {
 
 I've modified this a little from the previous examples in the first steps as
 the switch statement is much nicer to see what is happening and it will scale better
-as I add more actions.
+as I add more actions. IF you look in Redux Dev Tools you would see this:
+
+![Redux Dev Tools after changes](images/4.2.Redux-Dev-Tools-1.png)
 
 Now lets make this more realistic in the next step and turn the `getEmployees` call
 into an async call.
