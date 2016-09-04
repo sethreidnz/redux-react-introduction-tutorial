@@ -13,8 +13,8 @@ If you look at `src/index.js` the first thing you'll notice is I have added an i
 import { createStore } from 'redux'
 ```
 
-and then later in at the bottom on the file I use `createStore` which is a function that
-takes a reducer and returns a Redux store:
+I have installed the `redux` package from npm, imported the `createStore` function and at the bottom on 
+the file I use `createStore` which takes a reducer and returns a Redux store:
 
 ```
 let store = createStore(employeeReducer)
@@ -43,7 +43,7 @@ The last thing I need to do with our store setup the initial state. At the momen
 the state passed in but I'm not passing anything into that function when I register my store.
 
 ```
-git 
+git checkout step-2-1
 ```
 
 I could put something logic in my reducer to fix this but instead I have used ES2015 default parameters:
@@ -82,6 +82,7 @@ const testRequestEmployees = () => {
 		  type: 'EMPLOYEES_REQUESTED'
 	}
 	
+	deepFreeze(initialState)
 	// create the store
 	let store = createStore(employeeReducer)
 
@@ -92,7 +93,7 @@ const testRequestEmployees = () => {
 			lastName: 'Boon'
 		}]
 	}
-	
+
 	// dispatch the action
 	store.dispatch(action)
 
@@ -100,6 +101,10 @@ const testRequestEmployees = () => {
 	expect(store.getState()).toEqual(expectedState)
 }
 ```
+I have created my store and also called `deepFreeze` on the initial state to make sure that I am not
+mutating my state.
+
+If you run this in the browser it will print out 'All tests passed' in the console.
 
 ### Redux dev tools
 
@@ -122,7 +127,7 @@ The second option is to integrate it into your React app but since at this stage
 then I am going to use the extension. This gives you a monitor into your actions and the 
 state. For example
 
-![Redux Dev Tools](images/redux-deb-tools.png).
+![Redux Dev Tools](images/redux-dev-tools.png).
 
 Now all this example code is great but lets move into doing it in a real application, carying
 on from my [previous tutorial](https://github.com/justsayno/react-introduction-tutorial).
