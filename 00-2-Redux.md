@@ -4,8 +4,13 @@
 > I highly recommend watching Redux author Dan Abramov's [Getting Started with Redux](https://egghead.io/courses/getting-started-with-redux) 
 > and [Building React Applications with Idiomatic Redux](https://egghead.io/courses/building-react-applications-with-idiomatic-redux).
 
+<<<<<<< HEAD
 Redux is a state management library that is very simple and has three main principals. It is so simple the author made a 
 [90 line version](https://gist.github.com/gaearon/ffd88b0e4f00b22c3159) which is the bare
+=======
+Redux is a state management library that is very simple and has three main principals. It is so simple the author
+[Dan Abramov](https://github.com/gaearon) made a [98 line version](https://gist.github.com/gaearon/ffd88b0e4f00b22c3159) which is the bare
+>>>>>>> 519fe953841139b8051eb455813e73d81781604d
 bones of the library (sans some edge case handling and comments).
 
 There are three core principals to Redux but in short when using Redux you store all your application state in one JavaScript object (the store). This state is read-only
@@ -102,7 +107,7 @@ const reducer = (state, action) => {
 }
 ```
 
-This works and produces the correct state object but I have mutated the original state object and broken the rule of it being a pure function. This principal is nesisarry
+This works and produces the correct state object but I have mutated the original state object and broken the rule of it being a pure function. This principal is necessary
 to get some of the advantages of Redux such as the [Redux Dev Tools](https://github.com/gaearon/redux-devtools) I will show you later.
 
 The better way to do this is to use Object.assign:
