@@ -1,16 +1,20 @@
-# Our first store
+# First reducer
 
-To get the simple repo for this section:
+For this section I am going to use a bare bones JavaScript project just to demonstrate the concepts of Redux in the dev tools console. To get this code run
+the following:
 
 ```
 git clone https://github.com/justsayno/redux-examples
 git checkout step-1
 ```
 
-The first thing to get your head around with Redux is the idea of pure and impure functions. A pure functions is one that does not have 
-any observable side effects (like database calls, or network requests, or mutation of parameters passed in).
+> Now if you run this in the browser and open the developer tools console you will see things printed
+> out there
 
-I am going to use the example [previous step](00-2-Redux.md) where we want to handle the action of request employees. This is my
+The first thing to get your head around with Redux is the idea of pure and impure functions. A pure functions is one that does not have 
+any observable side effects. Side effects can include things like database calls, or network requests, or mutation of parameters passed in.
+
+I am going to use the example [previous step](00-2-Redux.md) where we want to handle the 'EMPLOYEES_REQUESTED' action. This is my
 employee reducer in `src/index.js`:
 
 ``` javascript
@@ -22,7 +26,7 @@ Obviously this is not actaully doing anything yet and it won't be able to handle
 
 ## Testing our reducer
 
-Before I do that I am going to add a unit test using [Michael Jackson's Expect Library](https://github.com/mjackson/expect) that should 
+Before I finish implementing my reducer I am going to add a unit test using [Michael Jackson's Expect Library](https://github.com/mjackson/expect) that should 
 pass when we have finished our reducer for this actions:
 
 ```
@@ -55,9 +59,14 @@ console.log('All tests passed')
 ```
 
 This `testRequestEmployees()` method is just creating the `stateBefore` and `stateAfter` and saying that the result of calling
-the employeeReducer with the state before and the `EMPLOYEES_REQUESTED` action should equal the state after defined.
+the employeeReducer with the state before and the `EMPLOYEES_REQUESTED` action should equal the state after we expect.
 
-Obviously this fails as we haven't even started implementing our employeesReducer.
+If you open up the address http://localhost:8080 in your browser you should see the following in the developer
+console:
+
+![Failed Test](images/1.1-FailedTest-1-.PNG)
+
+We haven't implemented the handler for our action so it fails... Lets fix this.
 
 ```
 git checkout step-1-2
@@ -73,6 +82,8 @@ export const employeeReducer = (state, action) => {
 	return state
 }
 ```
+
+And if you run it in the browse you should see the text 'All tests passed' in the console.
 
 ## Reducers must be pure functions
 
@@ -108,8 +119,12 @@ const testRequestEmployees = () => {
 }
 ```
 
-This throws an error `Uncaught TypeError: Cannot assign to read only property 'employees' of object '#<Object>'`. This is because
-our reducer is NOT a pure function! Lets fix this:
+If you look in the developer console you will see this:
+
+![Error from mutation of state](images/1.3.Mutation-Error.png)
+
+We might be producing the correct result but we have mutated the state. We need to use `Object.assign` to avoid
+doing this by creating a new state object.
 
 ```
 git checkout step-1-4
@@ -132,6 +147,6 @@ object. The properties are overriden by each successive merge so in my reducer I
 
 Test passes! Lets create our Redux store
 
-Next step - [Click here](01-Our-First-Store.md)
+Next step - [Click here](01-First-Store.md)
 
 
