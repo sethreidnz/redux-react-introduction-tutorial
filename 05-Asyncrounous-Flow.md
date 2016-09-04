@@ -31,7 +31,7 @@ We could do this:
 
 ``` javascript
 export const requestEmployees = () => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch({ 
             type: EMPLOYEES_REQUESTED
         })
@@ -39,8 +39,13 @@ export const requestEmployees = () => {
 }
 ```
 
-The above example is not very useful but say we turned the `getEmployee` into a function
-that returns we could call it like this:
+The function we return has passed to it two store arguments:
+
+- dispatch
+- getState
+
+This lets us inspect the current state as well as dispatch 0 or more actions. The above example is not very useful 
+but say we turned the `getEmployee` into a function that returns we could call it like this:
 
 ``` javascript 
 // Actions
@@ -217,3 +222,13 @@ _getSelectedEmployee(props){
     })[0]
 }
 ```
+
+One problem with this is if you reload the EmployeePofile route then you get an error... This is because
+it is not actually retrieving the employees so the filter function fails to return an employee.
+
+We could fix this by simply calling the `requestEmployees` action creator in both the EmployeeDashbaord component
+and the EmployeePofile component but then we would loose the caching that Redux is affording us.
+
+In the next step we will look at using Redux Thunk to 'bail out' of an action request.
+
+[Next Step](06-Conditional-Actions.md)
