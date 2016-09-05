@@ -58,9 +58,11 @@ The function we return has passed to it two store arguments:
 - dispatch
 - getState
 
+But this function doesn't actually do anything different than my previous action handler does it... Before doing a real async call we need to configure Redux Thunk.
+
 ## Configuring Redux Midddleware
 
-First we need to add the Redux Thunk package using npm and then we need to tell Redux about it. You do this by passing the middelware
+We need to install the Redux Thunk package using npm and then we need to tell Redux about it. You do this by passing the middelware
 to as a second argument to the Redux `createStore` function. 
 
 ``` javascript
@@ -84,8 +86,8 @@ export const store = createStore(
 );
 ```
 
-These let us inspect the current state as well as dispatch actions in our action creator. The above example is not very useful 
-but say we turned the `getEmployee` into a function that returns we could call it like this:
+As mentioned earlier the `Thunk` that we created before didn't really do anything different from my sycronous action creator.
+But say we turned the `getEmployee` into a function that returns a promise we could call it like this:
 
 ``` javascript 
 // Actions
@@ -137,7 +139,7 @@ But what I can add is a spinner to indicate that it is loading:
 git checkout step-5-1
 ```
 
-To do this I need add a hasLoaded flag to my initial state:
+To do this I added a hasLoaded flag to my initial state:
 
 ``` javascript
 const initialState = {
@@ -230,8 +232,11 @@ const mapStateToProps = (state) => ({
 
 ```
 
-
 ## Sharing state between components
+
+``` 
+git checkout step-5-2
+```
 
 At the moment I am still using the old `getEmployee(employeeId)` call for the single user page but this
 won't work any more now that we have turned `getEmployees` into an asyc call. We could do another asyncronous

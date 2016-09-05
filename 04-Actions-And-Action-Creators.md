@@ -20,12 +20,12 @@ const mapDispatchToProps = (dispatch) => ({
 ``` 
 
 This can then be called from inside my component. I was this action to happen on the first
-render of my container component so I put it in the constructor:
+render of my container component so I put it in the componentWillMount method:
 
 ``` javascript
-constructor({requestEmployees}){
-    super()
-    requestEmployees()
+componentWillMount () {
+const { requestEmployees } = this.props
+requestEmployees()
 }
 ```
 
@@ -35,7 +35,7 @@ constructor({requestEmployees}){
 git checkout step-4-1
 ```
 
-Although this is good if I wanted to call that action from else where in my app
+Although this is good if I decided I wanted to call that action from elsewhere in my app
 I would duplicate the creation of the action. It is a common pattern to create "Action Handlers"
 for doing this.
 

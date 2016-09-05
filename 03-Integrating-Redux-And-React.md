@@ -23,22 +23,21 @@ git checkout step-3
 ```
 
 I have created a file `src/store.js` where I am going to keep all my Redux logic. In a larger
-app I would break this up but I am trying to keep the example simple and understandable.
+app I would break this up but I am trying to keep the example simple and understandable. The `store.js` file contains:
 
 ``` javascript
-// store.js
 import { createStore } from 'redux'
 import { getEmployees } from './api/employees'
 
 const initialState = {
-    employee: getEmployees()
+    employees: getEmployees()
 }
 
 const employeeReducer = (state = initialState, action) => {
     return state
 }
 
-export const store = createStore(employeeReducer)
+export const store = createStore(employeeReducer, window.devToolsExtension && window.devToolsExtension())
 ```
 
 This is very similar to what was in the last step except just for demonstration
@@ -63,8 +62,13 @@ Redux's Provider is a [Higher Order Component](https://medium.com/@franleplant/r
  our app in a Redux provider make the store available to all container components.
 
 ``` javascript
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Routes from './routes'
+
 import { Provider } from 'react-redux'
 import { store } from './store'
+
 
 ReactDOM.render(
   <Provider store={store}>
@@ -117,8 +121,9 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(EmployeeDashboard)
 ```
 
-How connect works is that it takes two arguments (we are only using one at the moment) and returns a function
-that you can pass your component to and 'connect' it to your Redux store.
+How connect works is that it takes two arguments (we are only using one at the moment) and returns another function
+that you pass your container component in order to 'connect' it to your Redux store. This really just means
+that you have access to your store through in that component, among some other utility functions.
 
 **mapStateToProps**
 
