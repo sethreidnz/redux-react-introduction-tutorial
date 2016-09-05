@@ -147,6 +147,6 @@ object. The properties are overriden by each successive merge so in my reducer I
 
 Test passes! Lets create our Redux store
 
-Next step - [Click here](01-First-Store.md)
+Next step - [Click here](02-First-Store.md)
 
 

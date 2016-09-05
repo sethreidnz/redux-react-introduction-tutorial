@@ -4,8 +4,8 @@ In the past web sites mostly involved simple server side rendered, post-back bas
 and 'web apps' started to contend with the native mobile experience there has been an explosion of frameworks and tools
 such as Backbone, Knockout, Angular, Ember and so on.
 
-These frameworks and libraries solved many of problems such as data binding in between the view (html) and the data and how to structure and manage dependencies. 
-Often the missing piece was is a simple, scalable way of dealing with application state as the project grew and with it the complexity of the state transitions.
+These frameworks and libraries solved many problems such as data binding in between the view (html) and the model (data) and how to manage dependencies. 
+Often the missing piece is a simple, scalable way of dealing with application state as your project grew and with it the complexity of the state.
 
 The type of state I am talking about involves data from the server, UI interactions, forms and everything else that comes with any non-trivial application.
 
