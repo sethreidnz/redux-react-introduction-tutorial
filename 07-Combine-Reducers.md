@@ -107,8 +107,7 @@ export const employeesErrorReceived = (error) => ({
 
 export const requestEmployees = () => {
     return (dispatch, getState) => {
-        const state = getState()
-        const { hasLoaded, isFetching } = state.employees
+        const { hasLoaded, isFetching } = getState()
         if( hasLoaded || isFetching ) return
         
         dispatch(employeesRequested())
@@ -135,11 +134,9 @@ export const employeeErrorReceived = (error) => ({
     error: error
 })
 
-export const selectEmployee = (employeeId) => {
+export const requestEmployee = (employeeId) => {
     return (dispatch, getState) => {
-        debugger
-        const state = getState()
-        const { hasLoaded, isFetching } = state.selectedEmployee
+        const { hasLoaded, isFetching } = getState()
         if( hasLoaded || isFetching ) return
         
         dispatch(employeeSelected(employeeId))
@@ -256,7 +253,7 @@ export const store = createStore(
   compose(
     applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
-  )
+    )
 )
 ```
 
@@ -282,16 +279,58 @@ Otherwise this is very similar.
 The only problem now is that once an employee is selected it doesn't stays selected. Since when the route parameters change in the `Route` component the 
 `EmployeeProfile` component will remount the `componentWillMount` function will run again.
 
-Unfortunately if we look at our current implementation for 
+Unfortunately if we look at our current implementation for the `requestEmployees` it will return is `hasLoaded` is true so it won't re-fetch an employee
+once its loaded it once. 
 
-## Adding Redux router
+``` javascript
+export const requestEmployee = (employeeId) => {
+    return (dispatch, getState) => {
+        const { hasLoaded, isFetching } = getState()
+        if( hasLoaded || isFetching ) return
+        
+        dispatch(employeeSelected(employeeId))
+        return getEmployee(employeeId).then(
+            (employee) => dispatch(employeeReceived(employee)),
+            (error) => dispatch(employeeErrorReceived(error))
+        )
+    }
+}
+```
+
+What we need to do make sure that if the employeeId passed in is **different** to the one `selectedEmployee.item.id` in the state
+then we let it continue and request the employee from the api.
 
 ```
 git checkout step-7-3
 ```
+Now I have re-written my `requestEmployee` action creator to look like this:
+
+``` javascript
+export const requestEmployee = (employeeId) => {
+    return (dispatch, getState) => {
+        const state = getState()
+        const { hasLoaded, isFetching } = state.selectedEmployee
+        if(isFetching || (hasLoaded && employeeId === state.selectedEmployee.id)) return
+        
+        dispatch(employeeSelected(employeeId))
+        return getEmployee(employeeId).then(
+            (employee) => dispatch(employeeReceived(employee)),
+            (error) => dispatch(employeeErrorReceived(error))
+        )
+    }
+}
+```
+
+The logic here is saying "if it is fetching **OR** it has loaded and the selectedEmployee id in the state is the same as the employee id requested then don't do anything".
+
+## Adding Redux router
+
+```
+git checkout step-7-4
+```
 
 So far our store has only contained state relating employees and not the state that relates to the URL of the app. We can do this using `redux-react-router` which basically enhances
-`react-router` to ensure it updates the Redux store when there are changes made. If you look in my store I have imported `routerReducer` from `react-router-redux`:
+`react-router` to ensure it updates the Redux store when there are changes made. If you look in the `src/store.js` file I have imported `routerReducer` from `react-router-redux`:
 
 ``` javascript
 import { routerReducer } from 'react-router-redux'
