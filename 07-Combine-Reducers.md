@@ -256,7 +256,7 @@ export const store = createStore(
   compose(
     applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
-    )
+  )
 )
 ```
 
@@ -279,9 +279,74 @@ Otherwise this is very similar.
 
 ## Dealing with stale state.
 
-The only problem now is that once an employee is selected it doesn't stays selected. We neeed to invalidated the selected employee when the `employeeId` param 
-changes. We can easily do this using router action provided by `redux-react-router` as well as our current implementation. But so far we haven't integrated our router into
-our state...
+The only problem now is that once an employee is selected it doesn't stays selected. Since when the route parameters change in the `Route` component the 
+`EmployeeProfile` component will remount the `componentWillMount` function will run again.
 
-> NOTE: TO BE COMPLETED
+Unfortunately if we look at our current implementation for 
 
+## Adding Redux router
+
+```
+git checkout step-7-3
+```
+
+So far our store has only contained state relating employees and not the state that relates to the URL of the app. We can do this using `redux-react-router` which basically enhances
+`react-router` to ensure it updates the Redux store when there are changes made. If you look in my store I have imported `routerReducer` from `react-router-redux`:
+
+``` javascript
+import { routerReducer } from 'react-router-redux'
+```
+
+And added it to my combine reducer function:
+
+``` javascript
+const rootReducer = combineReducers({
+    employees: employeeReducer,
+    selectedEmployee: selectedEmployeeReducer,
+    routing: routerReducer
+})
+```
+
+Then I need use another function called `syncHistoryWithStore` from `react-router-redux` that builds a new history object for you to pass to your `Router` component. My Updated
+routes.js looks like this:
+
+``` javascript
+import React from 'react'
+import { Router, Route, IndexRoute, browserHistory  } from 'react-router'
+
+// Main App Container
+import App from './App'
+
+import EmployeeDashboard from './containers/EmployeeDashboard'
+import EmployeeProfile from './containers/EmployeeProfile'
+import { syncHistoryWithStore } from 'react-router-redux'
+
+const Routes = ({store}) => (
+    <Router history={syncHistoryWithStore(browserHistory, store)}>
+        <Route path='/' component={App}>
+            <IndexRoute component={EmployeeDashboard} />
+            <Route path='/dashboard' component={EmployeeDashboard} />
+            <Route path='/employee/:employeeId' component={EmployeeProfile} />
+        </Route>
+    </Router>
+)
+
+export default Routes
+```
+
+As you can see I am now passing my store as `props` and then passing the regular `browserHistory` and my store to `syncHistoryWithStore` and passing that result to my
+Router component as the history prop. Of course I had to edit my render function to pass the store in:
+
+``` javascript
+ReactDOM.render(
+  <Provider store={store}>
+    <Routes store={store}/>
+  </Provider>,
+  document.getElementById('root')
+)
+
+```
+
+Now if you run the app and look in the Redux DevTools you'll see the route changes in there:
+
+![Router state in Redux DevTools](images/7.3.Router-State-In-Redux-DevTools.png)
