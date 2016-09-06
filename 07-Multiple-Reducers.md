@@ -1,4 +1,4 @@
-# Combine Reducders
+# Multiple Reducers
 
 ```
 git checkout step-7
@@ -28,12 +28,12 @@ export const EmployeeSimlified = {
 But now my `EmployeeProfile` view is broken since the data doesn't have all the fields it needs! Lets fix this by adding
 our new redux actions and action handler.
 
-## Multiple Reducers
+## Combine Reducers
 
 Normally at this stage I would seperate things into different files based on the [Fractal Project Structure](https://github.com/davezuko/react-redux-starter-kit/wiki/Fractal-Project-Structure)
 but I am leaving that for a later tutorial. For now I am going to leave everything in one file for clarity.
 
-But I am going to add a new branch on our state tree. So far all the data has been at the root level like this:
+But I am going to add a new branch on our state tree with its own reducer. So far all the data has been at the root level like this:
 
 ``` javascript
 const initialState = {
@@ -45,8 +45,8 @@ const initialState = {
 }
 ```
 
-But now we want to store seperate data about each individual employee. You could find the employee you have viewed and add the extra data into the list, but this gets hard to manage.
-Instread Redux gives you a method called `combineReducers` which means we can make multiple reducers and pass them to our `createStore` function as what appears to be one reducer.
+Now I want to store seperate data about each individual employee. You could find the employee you have viewed and add the extra data into the list, but this gets hard to manage and keep consistent.
+Instead Redux gives you a method called `combineReducers` which combines multiple reducers into one so we can pass it to our `createStore`.
 
 Each reducer manages a seperate part of the state. For example:
 
@@ -74,7 +74,7 @@ git checkout step-7-1
 ```
 
 In this step I have added all the required code to create the actions, action creators, the seperate reducers and using combine reducers to bring it all together.
-It might seem like a lot of code but in my more advanced tutorial that will follow this one I will show you how you can generalise a lot of this code to reduce the boilerplate.
+It might seem like a lot of code but in my more advanced tutorial that will follow this one I will demonstrate how you can generalise a lot of this code to reduce the boilerplate.
 
 ``` javascript
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
